@@ -22,7 +22,7 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/messages", method = RequestMethod.POST)
-    public Document postMessage(String message) {
-        return messageDAO.saveMessage(message);
+    public Document postMessage(Document document) {
+        return messageDAO.saveMessage((String) document.get("message"));
     }
 }

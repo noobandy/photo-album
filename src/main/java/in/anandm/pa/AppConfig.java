@@ -14,7 +14,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 @Configuration
-@ImportResource(value = "classpath:db.properties")
+@ImportResource(value = "classpath:properties-config.xml")
 public class AppConfig {
 
     @Value("${mognodb.uri}")
