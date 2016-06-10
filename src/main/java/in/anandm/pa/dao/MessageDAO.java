@@ -19,10 +19,9 @@ public class MessageDAO {
         this.messages = messages;
     }
 
-    public Document saveMessage(String message) {
-        Document messageDocument = new Document("message", message);
-        messages.insertOne(messageDocument);
-        return messageDocument;
+    public Document saveMessage(Document message) {
+        messages.insertOne(message);
+        return message;
     }
 
     public List<Document> findAllMessages() {
