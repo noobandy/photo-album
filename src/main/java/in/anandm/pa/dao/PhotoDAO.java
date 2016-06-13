@@ -3,10 +3,12 @@ package in.anandm.pa.dao;
 import java.io.IOException;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
 public class PhotoDAO {
@@ -25,6 +27,7 @@ public class PhotoDAO {
         try {
             GridFSInputFile photo = photos.createFile(
                     file.getInputStream(), file.getOriginalFilename(), true);
+            photo.put("contentType", file.getContentType());
             photo.save();
         }
         catch (IOException e) {
@@ -39,6 +42,10 @@ public class PhotoDAO {
         return photos.getFileList().toArray();
     }
 
+    public GridFSDBFile findPhoto(ObjectId id) {
+
+        return photos.findOne(id);
+    }
     /*
      * public static void main(String[] args) throws IOException { MongoClient
      * client = new MongoClient(); GridFS photos = new

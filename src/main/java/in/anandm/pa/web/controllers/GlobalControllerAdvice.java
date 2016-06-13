@@ -1,13 +1,16 @@
 package in.anandm.pa.web.controllers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.format.Formatter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -33,6 +36,37 @@ public class GlobalControllerAdvice {
     @InitBinder
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(messageValidator);
+
+        webDataBinder.addCustomFormatter(new Formatter<ObjectId>() {
+
+            @Override
+            public String print(ObjectId object, Locale locale) {
+                if (object != null) {
+                    return object.toHexString();
+                }
+                else {
+                    return "null";
+                }
+
+            }
+
+            @Override
+            public ObjectId parse(String text, Locale locale)
+                    throws ParseException {
+                if (text == null || text.isEmpty()) {
+                    return null;
+                }
+                else {
+                    if (ObjectId.isValid(text)) {
+                        return new ObjectId(text);
+                    }
+                    else {
+                        throw new ParseException(text, 0);
+                    }
+
+                }
+            }
+        });
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 
 import com.mongodb.DB;
@@ -18,6 +19,7 @@ import com.mongodb.gridfs.GridFS;
 
 @Configuration
 @ImportResource(value = "classpath:config/properties-config.xml")
+@Import(value = SecurityConfig.class)
 public class AppConfig {
 
     @Value("${mognodb.uri}")
